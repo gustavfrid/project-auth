@@ -1,6 +1,6 @@
 import React from "react";
 
-const SignIn = () => {
+const SignedIn = () => {
   return (
     <form>
       <label htmlFor="nameInput">Username</label>
@@ -12,4 +12,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignedIn;
