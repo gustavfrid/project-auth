@@ -1,14 +1,15 @@
 import React from "react";
 
 const SignedIn = () => {
+  const signout = () => {
+    // signout
+    console.log(signout);
+  };
   return (
-    <form>
-      <label htmlFor="nameInput">Username</label>
-      <input id="nameInput" type="text" placeholder="username" />
-      <label htmlFor="passwordInput">Password</label>
-      <input id="nameInput" type="password" />
-      <input type="submit" value="Sign in" />
-    </form>
+    <>
+      <h1>You are signed in!</h1>
+      <button onClick={() => signout()}></button>
+    </>
   );
 };
 
