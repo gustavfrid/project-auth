@@ -54,7 +54,7 @@ app.post("/signup", async (req, res) => {
     const newUser = await new User({
       username,
       password: bcrypt.hashSync(password, salt),
-    });
+    }).save();
 
     res.status(201).json({
       response: {
@@ -66,6 +66,28 @@ app.post("/signup", async (req, res) => {
     });
   } catch (error) {
     response.status(400).json({ response: error, success: false });
+  }
+});
+
+app.post("/signin", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (user && bcrypt.compareSync(password, user.password)) {
+      res.status(200).json({
+        userId: user._id,
+        username: user.username,
+        accessToken: user.accessToken,
+      });
+    } else {
+      res
+        .status(404)
+        .json({ response: "User not found", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ response: error, success: false });
   }
 });
 
