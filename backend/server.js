@@ -41,6 +41,23 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// check is accesstoken was sent with the request
+const authenticateUser = async (req, res, next) => {
+  const accessToken = req.header("Authorization");
+  try {
+    const user = await User.findOne({ accessToken });
+    if (user) {
+      next();
+    } else {
+      res
+        .status(404)
+        .json({ response: "Please log in", success: false });
+    }
+  } catch (error) {
+    res.status(400).json({ response: error, success: false });
+  }
+};
+
 // Start defining your routes here
 app.get("/", (req, res) => {
   res.send("Hello world");
@@ -89,6 +106,11 @@ app.post("/signin", async (req, res) => {
   } catch (error) {
     res.status(400).json({ response: error, success: false });
   }
+});
+
+app.get("/thoughts", authenticateUser);
+app.get("/thoughts", (req, res) => {
+  res.send("here are thoughts");
 });
 
 // Start the server
