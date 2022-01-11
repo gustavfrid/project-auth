@@ -62,7 +62,7 @@ const SignIn = (props) => {
   const onSignIn = (event) => {
     event.preventDefault();
 
-    fetch("https://technigo-project-auth.herokuapp.com/", {
+    fetch("https://technigo-project-auth.herokuapp.com/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
