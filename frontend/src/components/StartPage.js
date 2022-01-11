@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.section`
@@ -10,7 +11,7 @@ const Container = styled.section`
   margin: 20px auto;
 `;
 
-const Button = styled.div`
+const Button = styled(Link)`
   position: relative;
   display: inline-block;
   margin: 10px;
@@ -37,17 +38,11 @@ const Button = styled.div`
 `;
 
 const StartPage = () => {
-  const goToSignIn = () => {
-    console.log("sign in");
-  };
-  const goToSignUp = () => {
-    console.log("sign up");
-  };
   return (
     <Container>
       <h1>Startpage</h1>
-      <Button onClick={() => goToSignUp()}>Sign up</Button>
-      <Button onClick={() => goToSignIn()}>Sign in</Button>
+      <Button to="/signup">Sign up</Button>
+      <Button to="/signin">Sign In</Button>
     </Container>
   );
 };
