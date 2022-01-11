@@ -3,7 +3,7 @@ import React from "react";
 const SignedIn = () => {
   const signout = () => {
     // signout
-    console.log(signout);
+    console.log("signout");
   };
   return (
     <>

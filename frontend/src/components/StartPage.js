@@ -29,7 +29,7 @@ const Button = styled(Link)`
 
   &:hover {
     color: white;
-    box-shadow: inset 0 -100px 0 0 rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 -100px 0 0 rgba(0, 0, 0, 1);
   }
 
   &:active {

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.form`
@@ -48,7 +49,33 @@ const SubmitBtn = styled.input`
 
   &:hover {
     color: white;
-    box-shadow: inset 0 -100px 0 0 rgba(0, 0, 0, 0.6);
+    box-shadow: inset 0 -100px 0 0 rgba(0, 0, 0, 1);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+`;
+
+const Button = styled(Link)`
+  position: relative;
+  display: inline-block;
+  margin: 20px 10px;
+  padding: 5px 5px;
+  text-align: center;
+  font-family: inherit;
+  font-size: 12px;
+  text-decoration: none;
+  color: white;
+  background: rgba(0, 0, 0, 1);
+  cursor: pointer;
+  transition: ease-out 0.5s;
+  border: 2px solid black;
+  height: 12px;
+
+  &:hover {
+    color: black;
+    box-shadow: inset 0 -100px 0 0 rgba(255, 255, 255, 1);
   }
 
   &:active {
@@ -98,6 +125,7 @@ const Signup = (props) => {
         }}
       />
       <SubmitBtn type="submit" value="Add user" />
+      <Button to="/">Startpage</Button>
     </Container>
   );
 };
