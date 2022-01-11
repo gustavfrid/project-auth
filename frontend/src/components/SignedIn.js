@@ -8,7 +8,7 @@ const SignedIn = () => {
   return (
     <>
       <h1>You are signed in!</h1>
-      <button onClick={() => signout()}></button>
+      <button onClick={signout()}>Sign out</button>
     </>
   );
 };
