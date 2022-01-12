@@ -115,15 +115,11 @@ const SignIn = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
+        if (data.username) {
           batch(() => {
-            dispatch(user.actions.setUserId(data.response.userId));
-            dispatch(
-              user.actions.setUsername(data.response.username)
-            );
-            dispatch(
-              user.actions.setAccessToken(data.response.accessToken)
-            );
+            dispatch(user.actions.setUserId(data.userId));
+            dispatch(user.actions.setUsername(data.username));
+            dispatch(user.actions.setAccessToken(data.accessToken));
             dispatch(user.actions.setError(null));
           });
         } else {

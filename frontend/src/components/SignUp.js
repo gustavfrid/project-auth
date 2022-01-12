@@ -115,6 +115,7 @@ const SignUp = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log("signup response", data);
         if (data.success) {
           batch(() => {
             dispatch(user.actions.setUserId(data.response.userId));
@@ -159,7 +160,7 @@ const SignUp = (props) => {
           setPasswordInput(e.target.value);
         }}
       />
-      <SubmitBtn type="submit" value="Sign in" />
+      <SubmitBtn type="submit" value="Sign up" />
       <Button to="/">Startpage</Button>
     </Container>
   );
