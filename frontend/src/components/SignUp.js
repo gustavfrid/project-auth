@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { user } from "../reducers/user";
 
+import Loading from "./Loading";
+
 const Container = styled.form`
   display: flex;
   flex-direction: column;
@@ -93,6 +95,7 @@ const SignUp = (props) => {
   const navigate = useNavigate();
 
   const accessToken = useSelector((store) => store.user.accessToken);
+  const loading = useSelector((store) => store.user.loading);
 
   useEffect(() => {
     if (accessToken) {
@@ -102,6 +105,7 @@ const SignUp = (props) => {
 
   const onSignUp = (event) => {
     event.preventDefault();
+    dispatch(user.actions.setLoading(true));
 
     fetch("https://technigo-project-auth.herokuapp.com/signup", {
       method: "POST",
@@ -137,32 +141,36 @@ const SignUp = (props) => {
         }
       })
       .then(setNameInput(""))
-      .then(setPasswordInput(""));
+      .then(setPasswordInput(""))
+      .finally(dispatch(user.actions.setLoading(false)));
   };
 
   return (
-    <Container onSubmit={onSignUp}>
-      <h1>Sign in</h1>
-      <label htmlFor="nameInput">Username</label>
-      <TextInput
-        id="nameInput"
-        type="text"
-        placeholder="username"
-        onChange={(e) => {
-          setNameInput(e.target.value);
-        }}
-      />
-      <label htmlFor="passwordInput">Password</label>
-      <TextInput
-        id="passwordInput"
-        type="password"
-        onChange={(e) => {
-          setPasswordInput(e.target.value);
-        }}
-      />
-      <SubmitBtn type="submit" value="Sign up" />
-      <Button to="/">Startpage</Button>
-    </Container>
+    <>
+      {loading && <Loading />}
+      <Container onSubmit={onSignUp}>
+        <h1>Sign up</h1>
+        <label htmlFor="nameInput">Username</label>
+        <TextInput
+          id="nameInput"
+          type="text"
+          placeholder="username"
+          onChange={(e) => {
+            setNameInput(e.target.value);
+          }}
+        />
+        <label htmlFor="passwordInput">Password</label>
+        <TextInput
+          id="passwordInput"
+          type="password"
+          onChange={(e) => {
+            setPasswordInput(e.target.value);
+          }}
+        />
+        <SubmitBtn type="submit" value="Sign up" />
+        <Button to="/">Startpage</Button>
+      </Container>
+    </>
   );
 };
 

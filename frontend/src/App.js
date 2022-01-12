@@ -25,7 +25,6 @@ export const App = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          {/* {loading && <Loading />} */}
           <Route path="/" element={<StartPage />} />
           <Route
             path="/signup"
