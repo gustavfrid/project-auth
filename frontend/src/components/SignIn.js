@@ -1,6 +1,9 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { batch } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { user } from "../reducers/user";
 
 const Container = styled.form`
   display: flex;
@@ -86,6 +89,8 @@ const Button = styled(Link)`
 const SignIn = (props) => {
   const { nameInput, passwordInput, setNameInput, setPasswordInput } =
     props;
+
+  const dispatch = useDispatch();
   const onSignIn = (event) => {
     event.preventDefault();
 
@@ -100,7 +105,25 @@ const SignIn = (props) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        if (data.success) {
+          batch(() => {
+            dispatch(user.actions.setUserId(data.response.userId));
+            dispatch(
+              user.actions.setUsername(data.response.username)
+            );
+            dispatch(
+              user.actions.setAccessToken(data.response.accessToken)
+            );
+            dispatch(user.actions.setError(null));
+          });
+        } else {
+          dispatch(user.actions.setUserId(null));
+          dispatch(user.actions.setUsername(null));
+          dispatch(user.actions.setAccessToken(null));
+          dispatch(user.actions.setError(data.response));
+        }
+      })
       .then(setNameInput(""))
       .then(setPasswordInput(""));
   };
