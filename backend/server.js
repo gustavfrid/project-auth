@@ -51,16 +51,7 @@ const authenticateUser = async (req, res, next) => {
       res.status(404).json({ response: 'Please log in', success: false })
     }
   } catch (error) {
-    if (error.response.code === 11000) {
-      res
-        .status(400)
-        .json({
-          response: 'This username is already registered. please choose another one',
-          success: false,
-        })
-    } else {
-      res.status(400).json({ response: error, success: false })
-    }
+    res.status(400).json({ response: error, success: false })
   }
 }
 
@@ -88,7 +79,15 @@ app.post('/signup', async (req, res) => {
       success: true,
     })
   } catch (error) {
-    res.status(400).json({ response: error, success: false })
+    //console.log(error.code)
+    if (error.code === 11000) {
+      res.status(400).json({
+        response: 'This username is already registered. please choose another one',
+        success: false,
+      })
+    } else {
+      res.status(400).json({ response: error, success: false })
+    }
   }
 })
 
