@@ -1,7 +1,6 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { batch } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector, batch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { user } from "../reducers/user";
 
@@ -91,6 +90,16 @@ const SignIn = (props) => {
     props;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const accessToken = useSelector((store) => store.user.accessToken);
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/signedin");
+    }
+  }, [accessToken, navigate]);
+
   const onSignIn = (event) => {
     event.preventDefault();
 
@@ -118,10 +127,12 @@ const SignIn = (props) => {
             dispatch(user.actions.setError(null));
           });
         } else {
-          dispatch(user.actions.setUserId(null));
-          dispatch(user.actions.setUsername(null));
-          dispatch(user.actions.setAccessToken(null));
-          dispatch(user.actions.setError(data.response));
+          batch(() => {
+            dispatch(user.actions.setUserId(null));
+            dispatch(user.actions.setUsername(null));
+            dispatch(user.actions.setAccessToken(null));
+            dispatch(user.actions.setError(data.response));
+          });
         }
       })
       .then(setNameInput(""))

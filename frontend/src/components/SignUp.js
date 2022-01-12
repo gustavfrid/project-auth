@@ -1,6 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector, batch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { user } from "../reducers/user";
 
 const Container = styled.form`
   display: flex;
@@ -83,9 +85,21 @@ const Button = styled(Link)`
   }
 `;
 
-const Signup = (props) => {
+const SignUp = (props) => {
   const { nameInput, passwordInput, setNameInput, setPasswordInput } =
     props;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const accessToken = useSelector((store) => store.user.accessToken);
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/");
+    }
+  }, [accessToken, navigate]);
+
   const onSignUp = (event) => {
     event.preventDefault();
 
@@ -100,14 +114,35 @@ const Signup = (props) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        if (data.success) {
+          batch(() => {
+            dispatch(user.actions.setUserId(data.response.userId));
+            dispatch(
+              user.actions.setUsername(data.response.username)
+            );
+            dispatch(
+              user.actions.setAccessToken(data.response.accessToken)
+            );
+            dispatch(user.actions.setError(null));
+          });
+        } else {
+          batch(() => {
+            dispatch(user.actions.setUserId(null));
+            dispatch(user.actions.setUsername(null));
+            dispatch(user.actions.setAccessToken(null));
+            dispatch(user.actions.setError(data.response));
+          });
+        }
+      })
       .then(setNameInput(""))
       .then(setPasswordInput(""));
   };
+
   return (
     <Container onSubmit={onSignUp}>
-      <h1>Sign up</h1>
-      <label htmlFor="nameInput">Type your username</label>
+      <h1>Sign in</h1>
+      <label htmlFor="nameInput">Username</label>
       <TextInput
         id="nameInput"
         type="text"
@@ -116,7 +151,7 @@ const Signup = (props) => {
           setNameInput(e.target.value);
         }}
       />
-      <label htmlFor="passwordInput">Type your password</label>
+      <label htmlFor="passwordInput">Password</label>
       <TextInput
         id="passwordInput"
         type="password"
@@ -124,10 +159,10 @@ const Signup = (props) => {
           setPasswordInput(e.target.value);
         }}
       />
-      <SubmitBtn type="submit" value="Add user" />
+      <SubmitBtn type="submit" value="Sign in" />
       <Button to="/">Startpage</Button>
     </Container>
   );
 };
 
-export default Signup;
+export default SignUp;
