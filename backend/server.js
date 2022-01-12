@@ -51,7 +51,16 @@ const authenticateUser = async (req, res, next) => {
       res.status(404).json({ response: 'Please log in', success: false })
     }
   } catch (error) {
-    res.status(400).json({ response: error, success: false })
+    if (error.response.code === 11000) {
+      res
+        .status(400)
+        .json({
+          response: 'This username is already registered. please choose another one',
+          success: false,
+        })
+    } else {
+      res.status(400).json({ response: error, success: false })
+    }
   }
 }
 
