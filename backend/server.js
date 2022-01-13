@@ -82,7 +82,8 @@ app.post('/signup', async (req, res) => {
     //console.log(error.code)
     if (error.code === 11000) {
       res.status(400).json({
-        response: 'This username is already registered. please choose another one',
+        response: error,
+        message: 'This username is already registered. please choose another one',
         success: false,
       })
     } else {
