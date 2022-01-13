@@ -126,6 +126,8 @@ const SignIn = (props) => {
             dispatch(user.actions.setAccessToken(data.accessToken));
             dispatch(user.actions.setError(null));
           });
+          setNameInput("");
+          setPasswordInput("");
         } else {
           batch(() => {
             dispatch(user.actions.setUserId(null));
@@ -133,10 +135,9 @@ const SignIn = (props) => {
             dispatch(user.actions.setAccessToken(null));
             dispatch(user.actions.setError(data.response));
           });
+          alert(data.message);
         }
       })
-      .then(setNameInput(""))
-      .then(setPasswordInput(""))
       .finally(dispatch(user.actions.setLoading(false)));
   };
 

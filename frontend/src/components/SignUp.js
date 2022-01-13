@@ -99,7 +99,7 @@ const SignUp = (props) => {
 
   useEffect(() => {
     if (accessToken) {
-      navigate("/");
+      navigate("/signedin");
     }
   }, [accessToken, navigate]);
 
@@ -140,6 +140,7 @@ const SignUp = (props) => {
             dispatch(user.actions.setAccessToken(null));
             dispatch(user.actions.setError(data.response));
           });
+          alert(data.message);
         }
       })
       // .then(setNameInput(""))
