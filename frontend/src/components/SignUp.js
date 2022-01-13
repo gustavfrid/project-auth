@@ -107,7 +107,7 @@ const SignUp = (props) => {
     event.preventDefault();
     dispatch(user.actions.setLoading(true));
 
-    fetch("https://technigo-project-auth.herokuapp.com/signup", {
+    fetch("http://localhost:8080/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -131,6 +131,8 @@ const SignUp = (props) => {
             );
             dispatch(user.actions.setError(null));
           });
+          setNameInput("");
+          setPasswordInput("");
         } else {
           batch(() => {
             dispatch(user.actions.setUserId(null));
@@ -140,8 +142,8 @@ const SignUp = (props) => {
           });
         }
       })
-      .then(setNameInput(""))
-      .then(setPasswordInput(""))
+      // .then(setNameInput(""))
+      // .then(setPasswordInput(""))
       .finally(dispatch(user.actions.setLoading(false)));
   };
 
