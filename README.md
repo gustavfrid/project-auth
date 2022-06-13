@@ -1,13 +1,11 @@
 # Project Auth
 
-Replace this readme with your own information about your project.
+A Node+Express API with a React frontend to show authentication. Utilizing Mongodb to store encrypted user information. Deployed using Netlify + Heroku.
 
-Start by briefly describing the assignment in a sentence or two. Keep it short and to the point.
+## View it locally
 
-## The problem
-
-Describe how you approached to problem, and what tools and techniques you used to solve it. How did you plan? What technologies did you use? If you had more time, what would be next?
+run npm install in both frontend and backend folders, to start backend run "npm run dev", mongodb service must be running. Frontend just run "npm start".
 
 ## View it live
 
-Every project should be deployed somewhere. Be sure to include the link to the deployed project so that the viewer can click around and see what it's all about.
+https://gustavfrid-project-auth.netlify.app/
